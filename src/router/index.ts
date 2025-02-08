@@ -31,19 +31,34 @@ const routes = [
   {
     path: '/',
     name: routerName.home,
-    // redirect: { name: routerName.userList },
+    // redirect: { name: routerName.user },
     meta: { requiresAuth: true },
     component: () => import('@/layouts/AdminLayout.vue'),
     children: [
       {
-        name: routerName.userList,
+        name: routerName.user,
         path: 'user',
         component: () => import('@/views/User/UserPage.vue'),
         meta: { requiresAuth: true, role: ROLE.ADMIN },
         title: TITLE_PAGE.ADMIN,
         beforeEnter: (to, from, next) => {
           // giả sử account có role là USER thì sẽ không truy cập được
-          if (to.meta.role && to.meta.role == 'USER') {
+          if (to.meta.role && to.meta.role == 'ADMIN') {
+            next()
+          } else {
+            next({ name: routerName.home })
+          }
+        },
+      },
+      {
+        name: routerName.skill,
+        path: 'skill',
+        component: () => import('@/views/User/UserPage.vue'),
+        meta: { requiresAuth: true, role: ROLE.ADMIN },
+        title: TITLE_PAGE.ADMIN,
+        beforeEnter: (to, from, next) => {
+          // giả sử account có role là USER thì sẽ không truy cập được
+          if (to.meta.role && to.meta.role == 'ADMIN') {
             next()
           } else {
             next({ name: routerName.home })

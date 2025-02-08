@@ -1,8 +1,15 @@
 export const routerName = {
-  userList: 'user-list',
   register: 'register',
   login: 'login',
   home: 'home',
   forgot: 'forgot',
   productList: 'product-list',
+  user: 'user',
+  skill: 'skill',
+  resume: 'resume',
+  job: 'job',
+  subscriber: 'subscriber',
+  file: 'file',
+  role: 'role',
+  permission: 'permission',
 }

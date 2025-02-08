@@ -50,7 +50,7 @@ const handleResponseResolve = (response: AxiosResponse): AxiosResponse => {
   // neu request api thanh cong data tra ve se co dang :
   // {data,=> day chinh la response fe nhan duoc
   // config,headers,request,status,statusText}
-  return response
+  return response.data
 }
 
 const handleResponseReject = (error: AxiosError | any): AxiosError | any => {
@@ -89,9 +89,15 @@ const handleResponseReject = (error: AxiosError | any): AxiosError | any => {
     case 401:
       notification['error']({
         message: 'Unauthorized',
-        description: error.response.data.error,
+        description: error.response.data.message,
       })
 
+      break
+    case 400:
+      notification['error']({
+        message: error.response.data.error,
+        description: error.response.data.message,
+      })
       break
     default:
       notification['error']({

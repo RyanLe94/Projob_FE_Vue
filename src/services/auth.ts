@@ -14,6 +14,17 @@ const authService = {
     return response
   },
 
+  logout: async (token: string | null) => {
+    const response = await instance({
+      method: 'POST',
+      url: '/auth/logout',
+      data: {
+        token: token,
+      },
+    })
+    return response
+  },
+
   register: async (body: UserRegister) => {
     const response = await instance({
       method: 'POST',

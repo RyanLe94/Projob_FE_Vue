@@ -10,7 +10,8 @@
 
 <style lang="scss" scoped>
 .auth-layout {
-  background-image: url('@/assets/img/background.jpg');
+  // background-image: url('@/assets/img/background.jpg');
+  background-color: #07a0b8;
   width: 100vw;
   height: 100vh;
   background-size: contain;

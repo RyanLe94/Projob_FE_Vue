@@ -76,8 +76,8 @@ const onLogin = async (values: UserLogin): Promise<void> => {
     password: values.password,
   })
 
-  if (res.data) {
-    const accessToken = res.data.access_token
+  if (res) {
+    const accessToken = res?.result.accessToken
     localStorage.setItem(ACCESS_TOKEN, accessToken)
     router.push({ name: routerName.home })
   }
