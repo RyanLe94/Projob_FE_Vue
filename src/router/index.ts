@@ -53,23 +53,50 @@ const routes = [
       {
         name: routerName.skill,
         path: 'skill',
-        component: () => import('@/views/User/UserPage.vue'),
+        component: () => import('@/views/Skill/SkillPage.vue'),
         meta: { requiresAuth: true, role: ROLE.ADMIN },
         title: TITLE_PAGE.ADMIN,
-        beforeEnter: (to, from, next) => {
-          // giả sử account có role là USER thì sẽ không truy cập được
-          if (to.meta.role && to.meta.role == 'ADMIN') {
-            next()
-          } else {
-            next({ name: routerName.home })
-          }
-        },
       },
       {
-        name: routerName.productList,
-        path: 'product',
-        component: () => import('@/views/Product/ProductList.vue'),
-        meta: { requiresAuth: true, role: ROLE.USER },
+        name: routerName.resume,
+        path: 'resume',
+        component: () => import('@/views/Resume/ResumePage.vue'),
+        meta: { requiresAuth: true, role: ROLE.ADMIN },
+        title: TITLE_PAGE.ADMIN,
+      },
+      {
+        name: routerName.job,
+        path: 'job',
+        component: () => import('@/views/Job/JobPage.vue'),
+        meta: { requiresAuth: true, role: ROLE.ADMIN },
+        title: TITLE_PAGE.ADMIN,
+      },
+      {
+        name: routerName.subscriber,
+        path: 'subscriber',
+        component: () => import('@/views/Subscriber/SubscriberPage.vue'),
+        meta: { requiresAuth: true, role: ROLE.ADMIN },
+        title: TITLE_PAGE.ADMIN,
+      },
+      {
+        name: routerName.file,
+        path: 'file',
+        component: () => import('@/views/File/FilePage.vue'),
+        meta: { requiresAuth: true, role: ROLE.ADMIN },
+        title: TITLE_PAGE.ADMIN,
+      },
+      {
+        name: routerName.role,
+        path: 'role',
+        component: () => import('@/views/Role/RolePage.vue'),
+        meta: { requiresAuth: true, role: ROLE.ADMIN },
+        title: TITLE_PAGE.ADMIN,
+      },
+      {
+        name: routerName.permission,
+        path: 'permission',
+        component: () => import('@/views/Permission/PermissionPage.vue'),
+        meta: { requiresAuth: true, role: ROLE.ADMIN },
         title: TITLE_PAGE.ADMIN,
       },
     ],
