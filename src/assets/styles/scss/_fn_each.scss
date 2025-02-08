@@ -1,0 +1,100 @@
+// su dung scss tao thu vien giong bootstrap nhu:flex, margin, padding,...
+// for
+$contents: 1, 2, 3;
+@each $content in $contents {
+  @if $content ==1 {
+  } @else if $content ==3 {
+  } @else {
+  }
+}
+// create function
+@function testfn($w, $h) {
+  @debug $w;
+  @return $w + $h;
+}
+// call fn
+.testfn {
+  width: testfn(20px, 150px);
+}
+$justifys: center, flex-start, flex-end, space-between, space-evenly, space-around;
+$align-items: center, flex-start, flex-end, stretch, baseline, normal;
+$directions: row, column, row-reverse, column-reverse;
+
+@each $justify in $justifys {
+  .justify-#{$justify} {
+    justify-content: $justify;
+  }
+}
+
+@each $align-item in $align-items {
+  .align-#{$align-item} {
+    align-items: $align-item;
+  }
+}
+
+@each $direction in $directions {
+  .flex-#{$direction} {
+    flex-direction: $direction;
+  }
+}
+
+$widths: 0, 25, 50, 100;
+@each $width in $widths {
+  .w-#{$width} {
+    width: $width;
+  }
+}
+$heights: 0, 25, 50, 75, 100;
+@each $height in $heights {
+  .h-#{$height} {
+    height: $height;
+  }
+}
+// mx my ma mt mb ml mr
+$spaces: 2, 4, 6, 8, 12, 20;
+$directions: (x, y, top, bottom, left, right);
+@each $direction in $directions {
+  @each $space in $spaces {
+    @if x ==$direction {
+      .m#{$direction}-#{$space} {
+        margin: {
+          left: $space + px !important;
+          right: $space + px !important;
+        }
+      }
+      .p#{$direction}-#{$space} {
+        padding: {
+          left: $space + px !important;
+          right: $space + px !important;
+        }
+      }
+    } @else if y ==$direction {
+      .m#{$direction}-#{$space} {
+        margin: {
+          top: $space + px !important;
+          bottom: $space + px !important;
+        }
+      }
+      .p#{$direction}-#{$space} {
+        padding: {
+          top: $space + px !important;
+          bottom: $space + px !important;
+        }
+      }
+    } @else {
+      .m#{$direction}-#{$space} {
+        margin-#{$direction}: $space + px !important;
+      }
+      .p#{$direction}-#{$space} {
+        padding-#{$direction}: $space + px !important;
+      }
+
+      .m#{$space} {
+        margin: $space + px !important;
+      }
+      .p#{$space} {
+        padding: $space + px !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+@import './variables';
+@mixin text($fw, $fs, $lh, $color: false) {
+  font-size: $fs;
+  font-weight: $fw;
+  line-height: $lh;
+  @if $color {
+    color: $color;
+  }
+}
+
+.h1-title {
+  @include text(600, 28px, 36px);
+}
+
+.h2-title {
+  @include text(600, 24px, 30px);
+}
+
+.h3-title {
+  @include text(600, 22px, 28px);
+}
+
+.title-1 {
+  @include text(600, 18px, 22px);
+}
+
+.title-2 {
+  @include text(700, 16px, 20px);
+}
+
+.title-3 {
+  @include text(700, 14px, 18px);
+}
+
+.content-1 {
+  @include text(400, 18px, 22px);
+}
+
+.content-2 {
+  @include text(400, 16px, 20px);
+}
+
+.content-2-semi {
+  @include text(600, 16px, 20px);
+}
+
+.content-3 {
+  @include text(400, 14px, 18px);
+}
+
+.caption-1 {
+  @include text(400, 12px, 12px);
+}
+
+.caption-2 {
+  @include text(400, 10px, 12px);
+}
+
+// description text
+.h1-title-color {
+  @include text(600, 28px, 36px, $neutral-400);
+}
+
+.h2-title-color {
+  @include text(600, 24px, 30px, $neutral-400);
+}
+
+.h3-title-color {
+  @include text(600, 22px, 28px, $neutral-400);
+}
+
+.title-1-color {
+  @include text(600, 18px, 22px, $neutral-400);
+}
+
+.title-2-color {
+  @include text(700, 16px, 20px, $neutral-400);
+}
+
+.title-3-color {
+  @include text(700, 14px, 18px, $neutral-400);
+}
+
+.content-1-color {
+  @include text(400, 18px, 22px, $neutral-400);
+}
+
+.content-2-color {
+  @include text(400, 16px, 20px, $neutral-400);
+}
+
+.content-2-semi-color {
+  @include text(600, 16px, 20px, $neutral-400);
+}
+
+.content-3-color {
+  @include text(400, 14px, 18px, $neutral-400);
+}
+
+.caption-1-color {
+  @include text(400, 12px, 12px, $neutral-400);
+}
+
+.caption-2-color {
+  @include text(400, 10px, 12px, $neutral-400);
+}
