@@ -1,29 +1,33 @@
 <template>
   <div class="admin-layout">
     <div class="wrapper-menu">
-      <div class="wrapper-logo">
-        <img class="logo" src="@/assets/img/logo.jpg" width="120" alt="logo" />
-        <div class="d-flex justify-content-center mb-4"><span>Ver 2.0.1</span></div>
+      <div>
+        <div class="wrapper-logo">
+          <img class="logo" src="@/assets/img/logo.jpg" width="120" alt="logo" />
+          <div class="d-flex justify-content-center mb-4"><span>Ver 2.0.1</span></div>
+        </div>
+        <a-divider class="m-0"></a-divider>
+        <a-menu
+          v-model:selectedKeys="state.selectedKeys"
+          style="width: 266px"
+          mode="inline"
+          :open-keys="state.openKeys"
+          class="menu"
+          :items="menus"
+          @click="handleClickMenu"
+          @openChange="onOpenChange"
+        >
+        </a-menu>
       </div>
-      <a-divider class="m-0"></a-divider>
-      <a-menu
-        v-model:selectedKeys="state.selectedKeys"
-        style="width: 266px"
-        mode="inline"
-        :open-keys="state.openKeys"
-        class="menu"
-        :items="menus"
-        @click="handleClickMenu"
-        @openChange="onOpenChange"
-      >
-      </a-menu>
 
-      <a-button
-        style="border: none; border-top: solid 1px gray"
-        class="logout"
-        @click="handleLogout"
-        >Logout</a-button
-      >
+      <div>
+        <a-button
+          style="border: none; border-top: solid 1px gray"
+          class="logout w-100"
+          @click="handleLogout"
+          >Logout</a-button
+        >
+      </div>
     </div>
     <router-view />
   </div>
@@ -68,20 +72,23 @@ const handleLogout = async () => {
 <style lang="scss" scoped>
 .admin-layout {
   background-color: $primary-50;
-  width: 100vw;
+  // width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: row;
+  overflow-x: hidden;
+
   .wrapper-menu {
-    height: 100vh;
-    max-height: 100vh;
+    // height: 100vh;
+    // max-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: white;
     .menu {
       width: 266px;
-      height: 100vh;
-      max-height: 100vh;
+      // height: 100vh;
+      // max-height: 100vh;
       overflow-y: auto;
     }
     .logout {
