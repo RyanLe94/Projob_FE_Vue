@@ -20,28 +20,30 @@
         </a-menu>
       </div>
 
-      <div>
+      <!-- <div>
         <a-button
           style="border: none; border-top: solid 1px gray"
           class="logout w-100"
           @click="handleLogout"
           >Logout</a-button
         >
+      </div> -->
+    </div>
+    <div class="content w-100">
+      <ProfileUser></ProfileUser>
+      <div>
+        <router-view />
       </div>
     </div>
-    <router-view />
   </div>
 </template>
 
 <script setup lang="ts">
 // import AdminPage from '@/views/AdminPage.vue'
-import { routerName } from '@/constants/routerName'
-import { useRouter } from 'vue-router'
-import { ACCESS_TOKEN } from '@/constants/localStorage'
-import { reactive } from 'vue'
+import ProfileUser from '@/components/ProfileUser.vue'
 
-import type { ItemType } from 'ant-design-vue'
-import authService from '@/services/auth'
+import { useRouter } from 'vue-router'
+import { reactive } from 'vue'
 import menus from '@/utils/sideBar'
 const router = useRouter()
 
@@ -56,17 +58,6 @@ const state = reactive({
 })
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const onOpenChange = (openKeys: string[]) => {}
-const handleLogout = async () => {
-  // const token = localStorage.getItem(ACCESS_TOKEN)
-
-  // const res = await authService.logout(token)
-
-  // if (res) {
-  // console.log(res)
-  localStorage.removeItem(ACCESS_TOKEN)
-  router.push({ name: routerName.login })
-  // }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -104,6 +95,10 @@ const handleLogout = async () => {
       margin: 20px auto;
       display: block;
     }
+  }
+  .content {
+    height: 100%;
+    height: 100vh;
   }
 }
 </style>

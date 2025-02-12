@@ -8,6 +8,7 @@ import CONFIG from '@/configs/appSetting'
 import { ACCESS_TOKEN } from '@/constants/localStorage'
 import { notification } from 'ant-design-vue'
 import { ref } from 'vue'
+import { handleLogout } from '@/utils/helper'
 
 const loading = ref(false)
 
@@ -91,7 +92,10 @@ const handleResponseReject = (error: AxiosError | any): AxiosError | any => {
         message: 'Unauthorized',
         description: error.response.data.message,
       })
-
+      // no refreshToken
+      if (localStorage.getItem(ACCESS_TOKEN)) {
+        handleLogout()
+      }
       break
     case 400:
       notification['error']({

@@ -1,7 +1,7 @@
 <template>
   <a-table
     :scroll="{
-      y: 660,
+      y: 640,
     }"
     :columns="columns"
     :data-source="data"
@@ -9,17 +9,7 @@
   />
 </template>
 <script lang="ts" setup>
-// import { ref } from 'vue'
-// import type { TableProps } from 'ant-design-vue'
 defineProps(['columns', 'data', 'pagination'])
-// const filteredInfo = ref()
-// const sortedInfo = ref()
-
-// const handleChange: TableProps['onChange'] = (pagination, filters, sorter) => {
-//   console.log('Various parameters', pagination, filters, sorter)
-//   filteredInfo.value = filters
-//   sortedInfo.value = sorter
-// }
 </script>
 <style scoped>
 .table-operations {

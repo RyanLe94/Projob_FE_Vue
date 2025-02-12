@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 page">
+  <div class="w-100">
     <div>
       <HeaderBar :title="'Permission Managerment'"></HeaderBar>
       <TableCommon
