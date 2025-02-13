@@ -1,13 +1,16 @@
 <template>
   <div class="w-100">
     <div>
-      <HeaderBar :title="'Permission Managerment'"></HeaderBar>
+      <HeaderBar :title="'Permission Managerment'" @add-record="handleAddRecord"></HeaderBar>
       <TableCommon
         class="m-4"
         :data="data"
         :columns="columns"
         :pagination="pagination"
         @change="handleChangeTable"
+        @edit-record="handleEditRecord"
+        @delete-record="handleDeleteRecord"
+        @show-info-record="handleShowInfoRecord"
       ></TableCommon>
     </div>
   </div>
@@ -58,6 +61,12 @@ const columns = computed<TableColumnType[]>(() => {
       key: 'method',
       ellipsis: true,
     },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      key: 'action',
+      ellipsis: true,
+    },
   ]
 })
 
@@ -65,6 +74,22 @@ const permissionParams = reactive({
   current: 1,
   pageSize: 15,
 })
+
+const handleAddRecord = () => {
+  console.log('add record')
+}
+
+const handleEditRecord = (id: string) => {
+  console.log(id)
+}
+
+const handleDeleteRecord = (id: string) => {
+  console.log(id)
+}
+
+const handleShowInfoRecord = (id: string) => {
+  console.log(id)
+}
 
 const handleChangeTable = (page, pageSize) => {
   permissionParams.current = page.current

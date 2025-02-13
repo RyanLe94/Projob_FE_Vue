@@ -8,7 +8,7 @@
       >
       <a-button v-if="showImportExport" class="btn-import btn-header">Import</a-button>
       <a-button v-if="showImportExport" class="btn-export btn-header">Export</a-button>
-      <a-button class="btn-add btn-header" type="primary">Add</a-button>
+      <a-button @click="handleAddRecord" class="btn-add btn-header" type="primary">Add</a-button>
     </div>
   </div>
 </template>
@@ -16,6 +16,10 @@
 <script setup lang="ts">
 import SearchHeader from '@/components/Input/SearchHeader.vue'
 defineProps(['title', 'showImportExport', 'showDelete'])
+const emit = defineEmits(['add-record'])
+const handleAddRecord = () => {
+  emit('add-record')
+}
 </script>
 
 <style lang="scss" scoped>
