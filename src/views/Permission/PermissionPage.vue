@@ -12,6 +12,43 @@
         @delete-record="handleDeleteRecord"
         @show-info-record="handleShowInfoRecord"
       ></TableCommon>
+      <PermissionModal
+        :open="openModal"
+        @confirm-modal="handleConfirmModal"
+        @cancel-modal="handleCancelModal"
+        :title="titleModal + ' permission'"
+        :titleModal="titleModal"
+      >
+        <template #content>
+          <a-form class="mt-4" v-if="!isDeleteModal" layout="vertical" :model="formData">
+            <a-form-item label="Name" name="Name">
+              <!-- :rules="[{ required: true, message: 'Please input name permission' }]" -->
+
+              <a-input :disabled="isDetailModal" v-model:value="formData.name" />
+            </a-form-item>
+            <a-form-item label="Module" name="module">
+              <!-- :rules="[{ required: true, message: 'Please input module' }]" -->
+
+              <a-input :disabled="isDetailModal" v-model:value="formData.module" />
+            </a-form-item>
+            <a-form-item label="Api path" name="apiPath">
+              <!-- :rules="[{ required: true, message: 'Please input api path' }]" -->
+
+              <a-input :disabled="isDetailModal" v-model:value="formData.apiPath" />
+            </a-form-item>
+            <a-form-item label="Method" name="method">
+              <!-- :rules="[{ required: true, message: 'Please select method' }]" -->
+
+              <a-select
+                :disabled="isDetailModal"
+                v-model:value="formData.method"
+                :options="optionsMethod"
+              ></a-select>
+            </a-form-item>
+          </a-form>
+          <div v-else>Are you sure want to delete "{{ permissionName }}" permission?</div>
+        </template>
+      </PermissionModal>
     </div>
   </div>
 </template>
@@ -19,20 +56,31 @@
 <script setup lang="ts">
 import HeaderBar from '@/components/HeaderBar.vue'
 import TableCommon from '@/components/TableCommon.vue'
+import { MODAL_TYPE } from '@/constants/common'
 import { computed, onMounted } from 'vue'
 import type { TableColumnType } from 'ant-design-vue'
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import permissionService from '@/services/permission'
-// import Pagination from '@/components/PaginationCommon.vue'
-interface DataItem {
-  key: string
-  name: string
-  age: number
-  address: string
-}
+import PermissionModal from '@/views/Permission/PermissionModal.vue'
+import type { Permission } from '@/models/permission'
+import { notification } from 'ant-design-vue'
 const data = ref()
 const sortedInfo = ref()
 const count = ref(0)
+const openModal = ref(false)
+const isDetailModal = ref()
+
+const titleModal = ref('')
+const optionsMethod = ref([
+  { value: 'POST', label: 'POST' },
+  { value: 'GET', label: 'GET' },
+  { value: 'PUT', label: 'PUT' },
+  { value: 'PATCH', label: 'PATCH' },
+  { value: 'DELETE', label: 'DELETE' },
+])
+const idPermission = ref()
+
+const permissionName = ref()
 const columns = computed<TableColumnType[]>(() => {
   const sorted = sortedInfo.value || {}
   return [
@@ -75,26 +123,105 @@ const permissionParams = reactive({
   pageSize: 15,
 })
 
+const formData = ref<Permission>({
+  name: undefined,
+  module: undefined,
+  apiPath: undefined,
+  method: undefined,
+})
+
+// DETAIL
+
+const handleShowInfoRecord = (id: string | number) => {
+  openModal.value = true
+  isDetailModal.value = true
+  titleModal.value = 'Detail'
+  getPermissionById(id)
+}
+
+const isDetailPage = computed(() => {
+  if (MODAL_TYPE.DETAIL == titleModal.value.toUpperCase()) {
+    return true
+  }
+  return false
+})
+
+const isCreateModal = computed(() => {
+  if (MODAL_TYPE.CREATE == titleModal.value.toUpperCase()) {
+    return true
+  }
+  return false
+})
+
+const isEditModal = computed(() => {
+  if (MODAL_TYPE.EDIT == titleModal.value.toUpperCase()) {
+    return true
+  }
+  return false
+})
+
+const isDeleteModal = computed(() => {
+  if (MODAL_TYPE.DELETE == titleModal.value.toUpperCase()) {
+    return true
+  }
+  return false
+})
+
+const handleConfirmModal = async (val: string | number) => {
+  if (isCreateModal.value) {
+    await createPermission(formData.value)
+    await getAllPermission()
+
+    // add
+  } else if (isEditModal.value) {
+    await editPermission(idPermission.value, formData.value)
+    await getAllPermission()
+
+    // edit
+  } else if (isDeleteModal.value) {
+    await deletePermission(idPermission.value)
+    await getAllPermission()
+
+    //delete
+  } else if (isDetailPage.value) {
+    //detail
+  }
+  openModal.value = false
+}
+const handleCancelModal = (val: string) => {
+  console.log(val)
+  openModal.value = false
+}
+
 const handleAddRecord = () => {
-  console.log('add record')
-}
+  titleModal.value = 'Create'
+  openModal.value = true
 
+  formData.value = {}
+}
+// END ADD RECORD
 const handleEditRecord = (id: string) => {
-  console.log(id)
+  titleModal.value = 'Edit'
+  idPermission.value = id
+  isDetailModal.value = false
+  getPermissionById(id)
+  openModal.value = true
 }
 
-const handleDeleteRecord = (id: string) => {
-  console.log(id)
-}
+const handleDeleteRecord = (id: string | number, name: string) => {
+  titleModal.value = 'Delete'
+  console.log(id, name)
 
-const handleShowInfoRecord = (id: string) => {
-  console.log(id)
+  idPermission.value = id
+  permissionName.value = name
+  openModal.value = true
 }
+// TABLE
 
 const handleChangeTable = (page, pageSize) => {
   permissionParams.current = page.current
   permissionParams.pageSize = page.pageSize
-  getPermission()
+  getAllPermission()
 }
 
 const pagination = computed(() => {
@@ -106,8 +233,8 @@ const pagination = computed(() => {
   }
 })
 
-const getPermission = async () => {
-  const res = await permissionService.getPermission({
+const getAllPermission = async () => {
+  const res = await permissionService.getAllPermission({
     pageNo: permissionParams.current,
     pageSize: permissionParams.pageSize,
   })
@@ -116,8 +243,49 @@ const getPermission = async () => {
     count.value = res.result.totalItems
   }
 }
+
+const editPermission = async (id: string | number, formData: Permission) => {
+  const res = await permissionService.editPermission(id, formData)
+  if (res) {
+    notification['success']({
+      message: 'Update permission',
+      description: 'Updated permission successfully',
+    })
+  }
+}
+
+const createPermission = async (formData: Permission) => {
+  const res = await permissionService.createPermission(formData)
+  if (res) {
+    notification['success']({
+      message: 'Create permission',
+      description: 'Created permission successfully',
+    })
+  }
+}
+
+const deletePermission = async (id: string | number) => {
+  const res = await permissionService.deletePermissionById(id)
+  if (res) {
+    notification['success']({
+      message: 'Delete permission',
+      description: 'Deleted permission successfully',
+    })
+  }
+}
+
+const getPermissionById = async (id: string | number) => {
+  const res = await permissionService.getPermissionById(id)
+  if (res) {
+    formData.value = res.result
+  }
+}
+// TABLE
 onMounted(() => {
-  getPermission()
+  getAllPermission()
+})
+watch(data, () => {
+  console.log('update')
 })
 </script>
 

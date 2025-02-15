@@ -15,7 +15,10 @@
           class="mx-3 delete-action action"
         />
         <EditIcon @click="handleEditRecord(record.id)" class="mx-3 delete-action action" />
-        <DeleteIcon @click="handleDeleteRecord(record.id)" class="mx-3 edit-action action" />
+        <DeleteIcon
+          @click="handleDeleteRecord(record.id, record.name)"
+          class="mx-3 edit-action action"
+        />
       </template>
     </template>
   </a-table>
@@ -29,8 +32,8 @@ const emit = defineEmits(['edit-record', 'delete-record', 'show-info-record'])
 const handleEditRecord = (id: string) => {
   emit('edit-record', id)
 }
-const handleDeleteRecord = (id: string) => {
-  emit('delete-record', id)
+const handleDeleteRecord = (id: string | number, name: string) => {
+  emit('delete-record', id, name)
 }
 
 const handleShowInfoRecord = (id: string) => {
