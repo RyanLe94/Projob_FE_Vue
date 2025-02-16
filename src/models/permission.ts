@@ -1,8 +1,6 @@
-type Method = {
-  string: 'GET' | 'POST' | 'DELETE' | 'CREATE' | 'PATCH' | 'PUT'
-}
+type Method = 'GET' | 'POST' | 'DELETE' | 'CREATE' | 'PATCH' | 'PUT'
 
-type Permission = {
+export type Permission = {
   id?: string
   name?: string
   createdAt?: string
@@ -11,4 +9,3 @@ type Permission = {
   module?: string
   apiPath?: string
 }
-export type { Permission }
